@@ -7,12 +7,23 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import FilePicker from 'chakra-ui-file-picker';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useCallback, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Input, Textarea } from '../components/form';
 import Layout from '../components/layout';
+import { fetchApi } from '../helpers/fetchApi';
+import { parseAddItemResponseData } from '../helpers/parsers/item';
+import { AddItemRequestData, AddItemResponseData, Item } from '../types';
 
 export default function AddItemPage() {
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm();
+  const [images, setImages] = useState<File[]>([]);
+
   const { data: session } = useSession();
 
   const inputProps = {
@@ -25,6 +36,54 @@ export default function AddItemPage() {
       boxShadow: 'none'
     }
   };
+
+  const onSubmit: SubmitHandler<FieldValues> = useCallback(
+    async (data) => {
+      if (!session?.user?.email) return;
+      console.log(data, images);
+      const localItem: Item = {
+        createdAt: new Date().toISOString(),
+        name: data.name,
+        description: data.description,
+        price: parseInt(data.price),
+        email: session.user.email,
+        images: images.map((image) => image.name)
+      };
+      try {
+        const { item, imagesUpload } = await fetchApi<
+          AddItemResponseData,
+          AddItemRequestData
+        >({
+          path: '/items/add',
+          payload: { item: localItem },
+          parser: parseAddItemResponseData
+        });
+
+        await Promise.all(
+          imagesUpload.map(async ({ url, fields }, index) => {
+            const formData = new FormData();
+            Object.entries({
+              ...fields,
+              file: images[index]
+            }).forEach(([key, value]) => {
+              formData.append(key, value);
+            });
+            const upload = await fetch(url, {
+              method: 'POST',
+              body: formData,
+              mode: 'no-cors'
+            });
+            console.log('upload', upload);
+          })
+        );
+        router.replace(`/items/${item.id}`);
+      } catch (error) {
+        alert(error);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [session, images]
+  );
 
   return (
     <Layout title="Add Item" description="Add an item to SUPost">
@@ -44,12 +103,24 @@ export default function AddItemPage() {
               <Text fontSize="lg" color="gray.500">
                 Sell an item on SUPost
               </Text>
-              <Input type="text" placeholder="Item Name" />
-              <Input type="number" placeholder="Price" />
-              <Textarea placeholder="Item Description" height={200} />
+              <Input
+                type="text"
+                placeholder="Item Name"
+                {...register('name', { required: true })}
+              />
+              <Input
+                type="number"
+                placeholder="Price"
+                {...register('price', { required: true })}
+              />
+              <Textarea
+                placeholder="Item Description"
+                height={200}
+                {...register('description', { required: true })}
+              />
               <FilePicker
                 onFileChange={(fileList) => {
-                  console.log(fileList);
+                  setImages(fileList);
                 }}
                 placeholder="Images"
                 clearButtonLabel="Clear"
@@ -57,7 +128,9 @@ export default function AddItemPage() {
                 hideClearButton={false}
                 inputProps={inputProps}
               />
-              <Button colorScheme="red">Add Item</Button>
+              <Button colorScheme="red" onClick={handleSubmit(onSubmit)}>
+                Add Item
+              </Button>
             </>
           ) : (
             <Text fontSize="lg" color="gray.500">

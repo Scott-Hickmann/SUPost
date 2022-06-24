@@ -13,12 +13,18 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@google-cloud/storage": "^6.2.0",
+    "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1",
     "chakra-ui-file-picker": "^0.2.0",
     "framer-motion": "^6.3.13",
+    "mongoose": "^6.4.0",
+    "nanoid": "^4.0.0",
     "next": "12.1.6",
     "next-auth": "^4.6.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.32.2"
   },
   "devDependencies": {
     "@types/node": "18.0.0",

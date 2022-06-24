@@ -9,7 +9,7 @@ interface ItemComponent {
 
 export default function ItemComponent({ item }: ItemComponent) {
   return (
-    <NextLink href={`/item/${item.id}`} passHref>
+    <NextLink href={`/items/${item.id}`} passHref>
       <HStack
         cursor="pointer"
         borderColor={useColorModeValue('gray.200', 'gray.500')}
