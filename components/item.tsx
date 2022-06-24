@@ -47,10 +47,11 @@ export default function ItemComponent({ item }: ItemComponent) {
       boxShadow="2xl"
       bg={useColorModeValue('white', 'gray.700')}
       rounded="xl"
-      p={10}
-      spacing={4}
+      p={{ base: 4, md: 10 }}
+      spacing={{ base: 4, md: 8 }}
       align="center"
-      width="3xl"
+      maxW="3xl"
+      width="full"
     >
       <HStack justify="space-between" width="full">
         <Box width={10} />

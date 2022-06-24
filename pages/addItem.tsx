@@ -87,15 +87,16 @@ export default function AddItemPage() {
 
   return (
     <Layout title="Add Item" description="Add an item to SUPost">
-      <Flex align="center" justify="center" py={12}>
+      <Flex align="center" justify="center" px={4} py={12}>
         <Stack
           boxShadow="2xl"
           bg={useColorModeValue('white', 'gray.700')}
           rounded="xl"
-          p={10}
-          spacing={4}
+          p={{ base: 4, md: 10 }}
+          spacing={{ base: 4, md: 8 }}
           align="center"
-          width="3xl"
+          maxW="3xl"
+          width="full"
         >
           <Heading>Add Item</Heading>
           {session ? (

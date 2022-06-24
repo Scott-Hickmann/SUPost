@@ -16,14 +16,18 @@ export default function ItemComponent({ item }: ItemComponent) {
         borderRadius={'xl'}
         borderWidth={2}
         rounded="xl"
-        spacing={0}
+        spacing={4}
         align="center"
         justifyContent="space-between"
-        height={100}
         width="full"
         overflow="hidden"
       >
-        <HStack spacing={4} px={8} fontSize="xl">
+        <HStack
+          spacing={{ base: 2, md: 4 }}
+          px={{ base: 4, md: 8 }}
+          fontSize="xl"
+          height={{ base: 50, md: 100 }}
+        >
           <Text fontWeight="bold">{item.name}</Text>
           <Text>${item.price}</Text>
           <Link href={`mailto:${item.email}`} color="red.500">
@@ -37,6 +41,7 @@ export default function ItemComponent({ item }: ItemComponent) {
             height={100}
             width={100}
             objectFit="cover"
+            display={{ base: 'none', md: 'inline' }}
           />
         )}
       </HStack>

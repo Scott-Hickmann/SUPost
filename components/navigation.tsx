@@ -1,13 +1,18 @@
-import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
   Button,
+  chakra,
   Flex,
   HStack,
   IconButton,
   Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
   useColorMode,
@@ -110,28 +115,42 @@ export default function Navigation(): ReactElement {
             </NavLink>
           ))}
         </HStack>
-        <Flex alignItems={'center'}>
+        <Flex alignItems="center" fontSize={{ base: 'sm', md: 'md' }}>
           <HStack spacing={4}>
             <Button aria-label="Toggle color mode" onClick={toggleColorMode}>
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
             {session ? (
-              <>
-                <Button colorScheme="red" onClick={() => signOut()}>
-                  Sign Out
-                </Button>
-                <HStack>
-                  <Avatar
-                    size="sm"
-                    name={user?.name ?? 'Anonymous'}
-                    src={user?.image ?? undefined}
-                  />
-                  <Text whiteSpace="nowrap">{user?.name ?? 'Anonymous'}</Text>
-                </HStack>
-              </>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  variant="link"
+                  cursor="pointer"
+                  colorScheme="black"
+                  minW={0}
+                >
+                  <HStack>
+                    <Avatar
+                      size="sm"
+                      name={user?.name ?? 'Anonymous'}
+                      src={user?.image ?? undefined}
+                    />
+                    <Text whiteSpace="nowrap">{user?.name ?? 'Anonymous'}</Text>
+                    <Box display={{ base: 'none', lg: 'flex' }}>
+                      <ChevronDownIcon />
+                    </Box>
+                  </HStack>
+                </MenuButton>
+                <MenuList p={0}>
+                  <MenuItem color="red.500" onClick={() => signOut()}>
+                    Sign Out
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             ) : (
               <Button colorScheme="red" onClick={() => signIn('google')}>
-                Sign In
+                Sign In&nbsp;
+                <chakra.span fontSize="xs">(@stanford.edu)</chakra.span>
               </Button>
             )}
           </HStack>

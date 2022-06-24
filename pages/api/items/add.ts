@@ -22,7 +22,6 @@ export default withAuth(
       session
     ) {
       try {
-        await connectToDatabase();
         if (
           !session.user?.email ||
           session.user?.email !== clientItem.email ||
@@ -45,6 +44,7 @@ export default withAuth(
             return `${response.url}${imageName}`;
           })
         );
+        await connectToDatabase();
         const item = documentToObject<Item>(await ItemModel.create(clientItem));
         res.status(200).json({ success: true, data: { item, imagesUpload } });
       } catch (error) {

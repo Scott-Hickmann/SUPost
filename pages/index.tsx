@@ -14,7 +14,7 @@ export default function HomePage() {
           py={{ base: 20, md: 28 }}
         >
           <Heading
-            fontWeight={600}
+            fontWeight="extrabold"
             fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
             lineHeight="110%"
           >

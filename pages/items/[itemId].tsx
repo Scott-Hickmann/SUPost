@@ -18,7 +18,7 @@ export default function ItemPage({ item }: ItemPageProps) {
       description={item.description}
       image={item.images[0]}
     >
-      <Flex align="center" justify="center" py={12}>
+      <Flex align="center" justify="center" px={4} py={12}>
         <ItemComponent item={item} />
       </Flex>
     </Layout>
