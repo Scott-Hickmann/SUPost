@@ -19,7 +19,7 @@ export default function HomePage() {
             lineHeight="110%"
           >
             SU
-            <Text as="span" color="red">
+            <Text as="span" color="red.500">
               Post
             </Text>
           </Heading>

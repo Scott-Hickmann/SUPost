@@ -68,7 +68,7 @@ export default function ItemComponent({ item }: ItemComponent) {
         {item.description}
       </Text>
       <Text fontSize="3xl">${item.price}</Text>
-      <Link href={`mailto:${item.email}`} color="red.400">
+      <Link href={`mailto:${item.email}`} color="red.500">
         {item.email}
       </Link>
       {item.images.map((imageUrl) => (
