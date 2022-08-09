@@ -34,7 +34,7 @@ export default NextAuth({
   },
   theme: {
     colorScheme: 'auto',
-    brandColor: '#E53E3E',
+    brandColor: '#b1040e',
     logo: ''
   }
 });
